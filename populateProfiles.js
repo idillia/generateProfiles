@@ -1,13 +1,7 @@
-//    "personal_archetype": [],
-//    "strength_words": [],
-//    "personal_archetype_blend_sentences": [],
 var PsycheData = require('./psyche.json'); 
-var Users = require('./users.json'); 
+var Users = require('./mbti_infj_uni_rep.json'); 
 var _ = require('underscore');
 var fs = require('fs');
-
-
-
 
 let generatePersonalArchetypes = function(personalTypes) {
   let threeTypes = _.sample(personalTypes, 3);
@@ -55,14 +49,9 @@ let getBlendSentence = function(personalTypes,blendSentences) {
 
 
 let filloutProfiles = function(json, pa, sw, pabs, personalTypes,StrengthWords, blendSentences){
+  var posted_time = "", status_action = "", prof_snapshot = "", prof_url = "", note = "";
   for(var i = 0; i<=json.length; i++) {
     for(var key in json[i]) {
-      // json[i].pa = "hello"
-      // if(!(pa in json) && !(sw in json) && !(pabs in json)) {
-      //   json.pa = [];
-      //   json.sw = [];
-      //   json.pabs = [];
-      // }
       if(!(pa in json)) {
         json[i].pa = [];
         json[i].pa.push(generatePersonalArchetypes(personalTypes));
@@ -74,10 +63,24 @@ let filloutProfiles = function(json, pa, sw, pabs, personalTypes,StrengthWords, 
       if(!(pabs in json)) {
         json[i].pabs = [];
         json[i].pabs.push(getBlendSentence(personalTypes,blendSentences));
+      }      
+      if(!(posted_time in json)) {
+        json[i].posted_time = '';
+      }      
+      if(!(status_action in json)) {
+        json[i].status_action = '';
+      }      
+      if(!(prof_snapshot in json)) {
+        json[i].prof_snapshot = '';
+      }      
+      if(!(prof_url in json)) {
+        json[i].prof_url = 'http://goodco.company/' + json[i].screen_name;
+      }      
+      if(!(note in json)) {
+        json[i].note = '';
       }
     }
   }
-  console.log(json[0]);
   return json;
 }
 
@@ -85,7 +88,7 @@ var profileData = filloutProfiles(Users, "personal_archetype", "strength_words",
 fs.writeFile('profiles.json', JSON.stringify(profileData, null, ' '), 'utf8', function(err) {
     if (err) throw err;
     console.log('file saved');
-  });
+});
 
 
 
