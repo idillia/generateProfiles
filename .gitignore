@@ -1,8 +1,5 @@
 node_modules
-profiles.json
-psyche.json
-users.json
 .DS_Store
-mbti_infj*
-profiles_*
-old_profiles*
+
+*json
+db_users
